@@ -30,10 +30,10 @@ search: true
 
 # Build settings
 markdown: kramdown
-# remote_theme: mmistakes/minimal-mistakes
 
 # install bundle first:  bundle add minimal-mistakes-jekyll
 theme: minimal-mistakes-jekyll
+# remote_theme: mmistakes/minimal-mistakes
 
 # Outputting
 permalink: /:categories/:title/
@@ -64,6 +64,8 @@ plugins:
   - jekyll-feed
   - jemoji
   - jekyll-include-cache
+  - jekyll-remote-theme
+
 
 author:
   name   : "Daniel Lee"
