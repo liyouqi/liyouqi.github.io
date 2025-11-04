@@ -318,6 +318,17 @@ defaults:
 > 所有分类、标签、文件命名、Front Matter 均应保持英文，正文可使用中英文混合。  
 > 推荐先在本地测试主题与排版，确认后再部署到 GitHub Pages。
 
+常用 type（可选 scope）
+feat：新功能
+fix：修复 bug
+docs：文档
+style：格式、空格、分号（不影响代码逻辑）
+refactor：代码重构（非新增、非修复）
+perf：性能优化
+test：测试相关
+chore：杂项（构建、脚本、工具）
+ci：持续集成相关
+build：构建系统或依赖相关
 ---
 
 *Created by Li — Minimal Mistakes Blog Standard v1.0*
