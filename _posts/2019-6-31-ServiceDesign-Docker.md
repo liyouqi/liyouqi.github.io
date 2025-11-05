@@ -51,7 +51,7 @@ When I typed `docker run`, it didn’t feel like launching an app;
 it felt like **spawning a small universe** inside my machine.  
 Suddenly, “isolation” wasn’t a problem — it was elegance.
 
-{% include figure image_path="/assets/images/service_design/docker_ps.png" alt="Docker running containers" caption="First containers running: PostgreSQL and pgAdmin" %}
+{% include figure image_path="/assets/images/service_design/docker/docker_ps.png" alt="Docker running containers" caption="First containers running: PostgreSQL and pgAdmin" %}
 
 ---
 
@@ -75,7 +75,7 @@ Every `-p` was a bridge between isolated worlds.
 When I saw both containers listed under `docker ps`,  
 it felt less like managing software and more like **composing architecture**.
 
-{% include figure image_path="/assets/images/service_design/docker_ports.png" alt="Container ports mapping" caption="Port mapping: 5432 for Postgres, 5050 for pgAdmin" %}
+{% include figure image_path="/assets/images/service_design/docker/docker_ports.png" alt="Container ports mapping" caption="Port mapping: 5432 for Postgres, 5050 for pgAdmin" %}
 
 ---
 
@@ -97,7 +97,7 @@ a reminder that in systems, as in life, memory outlives form.
 
 > Containers die, volumes remember.
 
-{% include figure image_path="/assets/images/service_design/docker_volume.png" alt="Docker volume mapping" caption="Volume mounted for persistent Postgres data" %}
+{% include figure image_path="/assets/images/service_design/docker/docker_volume.png" alt="Docker volume mapping" caption="Volume mounted for persistent Postgres data" %}
 
 ---
 
@@ -171,7 +171,7 @@ allowing teams (or even individuals) to design, test, and deploy without breakin
 And yet, every container must eventually talk — through ports, APIs, queues, or networks.  
 That tension between **isolation and connection** is what makes this concept beautiful.
 
-{% include figure image_path="/assets/images/service_design/microservices_city.png" alt="Microservices city metaphor" caption="From isolated boxes to connected systems — a city of microservices" %}
+{% include figure image_path="/assets/images/service_design/docker/microservices_city.png" alt="Microservices city metaphor" caption="From isolated boxes to connected systems — a city of microservices" %}
 
 ---
 
