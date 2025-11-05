@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+
 gem "github-pages", group: :jekyll_plugins
 
 gem "tzinfo-data"
@@ -14,6 +15,12 @@ group :jekyll_plugins do
   gem "jemoji"
   gem "jekyll-include-cache"
   gem "jekyll-algolia"
+  gem "jekyll-remote-theme"
 end
 
+# Minimal Mistakes gem for local development (used via _config_local.yml)
 gem "minimal-mistakes-jekyll", "~> 4.27"
+
+
+
+

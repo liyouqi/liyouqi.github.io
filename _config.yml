@@ -31,9 +31,14 @@ search: true
 # Build settings
 markdown: kramdown
 
-# install bundle first:  bundle add minimal-mistakes-jekyll
-theme: minimal-mistakes-jekyll
-# remote_theme: mmistakes/minimal-mistakes
+# Default: use remote_theme so GitHub Pages can auto-build without Actions
+# (We'll override this locally in _config_local.yml)
+remote_theme: mmistakes/minimal-mistakes
+theme: null
+
+# remote_theme: null
+# theme: minimal-mistakes-jekyll
+
 
 # Outputting
 permalink: /:categories/:title/
