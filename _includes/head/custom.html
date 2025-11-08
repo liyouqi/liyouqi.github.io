@@ -1,0 +1,49 @@
+{% if page.mermaid or site.mermaid %}
+  <!-- Load Mermaid from CDN and render fenced ```mermaid blocks -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    (function () {
+      function transformAndInitMermaid() {
+        // Turn ```mermaid fenced code blocks into <div class="mermaid"> nodes
+        document.querySelectorAll('pre code.language-mermaid').forEach(function (code) {
+          var pre = code.parentElement;
+          var container = document.createElement('div');
+          container.className = 'mermaid';
+          container.textContent = code.textContent.trim();
+          pre.parentNode.replaceChild(container, pre);
+        });
+        if (window.mermaid) {
+          window.mermaid.initialize({ startOnLoad: true });
+          try { window.mermaid.init(undefined, document.querySelectorAll('.mermaid')); } catch (e) {}
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', transformAndInitMermaid);
+      } else {
+        transformAndInitMermaid();
+      }
+    })();
+  </script>
+{% endif %}
+
+
+<!-- Enable MathJax for LaTeX rendering -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      tags: 'none'
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+      ignoreHtmlClass: 'tex2jax_ignore',
+      processHtmlClass: 'tex2jax_process'
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>

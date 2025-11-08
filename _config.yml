@@ -30,14 +30,21 @@ search: true
 
 # Build settings
 markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+  math_engine: mathjax
+  math_engine_opts:
+    preview: false
 
 # Default: use remote_theme so GitHub Pages can auto-build without Actions
 # (We'll override this locally in _config_local.yml)
-remote_theme: mmistakes/minimal-mistakes
-theme: null
-
-# remote_theme: null
-# theme: minimal-mistakes-jekyll
+# remote_theme: mmistakes/minimal-mistakes
+# theme: null
+# git commit -m ""
+remote_theme: null
+theme: minimal-mistakes-jekyll
 
 
 # Outputting
@@ -71,6 +78,11 @@ plugins:
   - jekyll-include-cache
   - jekyll-remote-theme
 
+
+# Mermaid 全局配置（可放全局）
+mermaid:
+  version: "10.9.0"             
+  initialize: { startOnLoad: true }
 
 author:
   name   : "Daniel Lee"
@@ -114,6 +126,8 @@ defaults:
       comments: true
       share: true
       related: true
+      mermaid: true # 全局了
+
   # _pages
   - scope:
       path: "_pages"
