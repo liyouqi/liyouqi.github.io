@@ -1,8 +1,8 @@
 ---
 title: "Revisiting Communication Models: REST, GraphQL, and RPC"
-date: 2025-11-05
+date: 2019-8-05
 categories:
-  - Thoughts
+  - Service Design
 tags:
   - Reflection
   - Journal

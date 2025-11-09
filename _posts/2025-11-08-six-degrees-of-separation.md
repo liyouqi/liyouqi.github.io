@@ -1,5 +1,5 @@
 ---
-title: "Six Degrees of Separation — a small-world stroll with Python and a dash of linear algebra"
+title: "Six Degrees of Separation - Initial Exploration"
 date: 2025-11-08
 categories:
   - Data Mining
@@ -223,7 +223,6 @@ Have fun exploring!
 
 If you try this with real data — email graphs, coauthor networks, or even your own friend circles — the numbers will move, but the feeling tends to stay.
 
-![Closing visual, a gentle web](/assets/images/six_degrees/hist_degree_vs_friendavg.png)
 
 
 

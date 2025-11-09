@@ -2,7 +2,7 @@
 title: "Docker — From Containers to Systems Thinking"
 date: 2019-6-31
 categories:
-  - Thoughts
+  - Service Design
 tags:
   - Docker
   - Microservices
