@@ -1,8 +1,8 @@
 ---
 title: "Chapter I · From Banks to Markets: The Evolution of Financial Intermediation"
-date: 2025-11-06
+date: 2024-10-30
 categories:
-  - Fintech Study Notes
+  - Financial Study Notes
 tags:
   - FinTech
   - Reflection
