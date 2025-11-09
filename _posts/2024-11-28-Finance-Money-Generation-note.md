@@ -212,10 +212,6 @@ This article synthesizes standard monetary definitions with the liquidity‑crea
 
 ### Appendix: Code for the simulation figures
 
-### Appendix — complete script 
-
-Tell me you have some interest insights
-
 ```python
 
 import numpy as np
