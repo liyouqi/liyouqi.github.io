@@ -142,7 +142,7 @@ To understand the structure of the Ethereum network better, I compared the actua
 
 ![Edge Count Comparison](/assets/images/ethereum_network_analysis/edge_count_comparison.png)
 
-
+It is not very
 
 
 ## 5. Summary
