@@ -42,7 +42,7 @@ kramdown:
 # (We'll override this locally in _config_local.yml)
 remote_theme: mmistakes/minimal-mistakes
 theme: null
-##  git commit -m ""
+
 # remote_theme: null
 # theme: minimal-mistakes-jekyll
 
@@ -85,7 +85,7 @@ mermaid:
   initialize: { startOnLoad: true }
 
 author:
-  name   : "Daniel Lee"
+  name   : "Daniel Li"
   avatar : "/assets/images/head.jpg"
   bio    : "Build to wonder — always learning, always building, chasing the spark between logic and imagination"
   links:

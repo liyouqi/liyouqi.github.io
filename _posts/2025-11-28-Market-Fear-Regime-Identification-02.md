@@ -36,7 +36,9 @@ I'm starting simple and expanding later. This feasibility study uses just 3 feat
 df['ret_btc'] = np.log(df['BTC'] / df['BTC'].shift(1))
 ```
 
-I use log returns because they're additive across time (easier for rolling calculations), symmetric (a +10% and -10% change have equal magnitude in log space), and standard practice in quantitative finance. The distribution shows a mean around 0.2% daily (indicating long-term uptrend) with high kurtosis — fat tails from extreme events like the COVID crash and FTX collapse.
+I use log returns because they're additive across time (easier for rolling calculations), symmetric (a +10% and -10% change have equal magnitude in log space), and standard practice in quantitative finance. The distribution shows a mean around 0.2% daily (indicating long-term uptrend) with high kurtosis.
+
+What is the meaning of symetric here, 
 
 #### 2. Annualized Volatility (vol_btc_7)
  **A really important feature for regime detection.**  
@@ -44,11 +46,14 @@ I use log returns because they're additive across time (easier for rolling calcu
 df['vol_btc_7'] = df['ret_btc'].rolling(7).std() * np.sqrt(365)
 ```
 
-I chose a 7-day rolling window because it captures recent volatility spikes without over-smoothing (compared to a 30-day window). It's responsive to regime changes — fear regimes show sudden volatility surges. This balances noise reduction with sensitivity.
+Why vol_btc_7?
+
+I chose a 7-day rolling window because it captures recent volatility spikes without over-smoothing (compared to a 30-day window). And if choosing 1-day volatility, it would be too noisy. 7 days is a good compromise.
+It's responsive to regime changes — fear regimes show sudden volatility surges. This balances noise reduction with sensitivity.
 
 The annualization factor √365 converts daily volatility to an annual percentage, which is industry standard. This lets us compare crypto volatility with traditional assets (S&P 500 is around 15-20% annual volatility). The formula is σ_annual = σ_daily × √(252 or 365). I use 365 since crypto trades 24/7, unlike stocks which take weekends off.
 
-For example, if the 7-day raw standard deviation is 0.0312 (daily), the annualized value is 0.0312 × √365 ≈ 0.596, or 59.6% annual volatility.
+For example, if the 7-day raw standard deviation is 0.0312 (daily), the annualized value is 0.0312 × √365 ≈ 0.596, or 59.6% annual volatility. For crypto, this is typical during turbulent periods.
 
 #### 3. Normalized Fear & Greed (`fg_norm`)
 
@@ -136,36 +141,53 @@ The feature space plot shows how the clusters separate across the volatility and
 
 ![Feature space clustering showing 5 distinct regimes](/assets/images/market_fear_regime/3.png)
 
-You can see that Extreme Fear (red) sits in the high-volatility, low-sentiment corner, while Extreme Greed (purple) occupies the low-to-medium volatility, high-sentiment region. The Neutral cluster (blue) is centered around moderate values for both dimensions.
+The feature space plot uses viridis colormap (0=purple to 4=yellow) to show the 5 clusters. Looking at the scatter:
+- **Low volatility (<0.5) + High sentiment (>0.7)**: Yellow/cyan clusters (Greed regimes)
+- **High volatility (>1.5) + Low sentiment (<0.3)**: Purple clusters (Extreme Fear)
+- **Medium volatility (0.5-1.5) + Low-mid sentiment (0.2-0.5)**: Blue/green clusters (Mild Fear and Neutral)
+- **Notice**: Very few points in the "high vol + high sentiment" region — markets don't exhibit confident chaos.
 
 Mapping these regimes over time reveals that transitions align well with known market events:
 
 ![Regime evolution timeline from 2018 to present](/assets/images/market_fear_regime/4.png)
 
-March 2020 shows a clear Extreme Fear spike during the COVID crash. April 2021 marks the bull market peak with sustained Extreme Greed. May 2022 captures the Terra/Luna collapse, and November 2022 reflects the FTX bankruptcy — both showing extended Extreme Fear periods.
+This is a dual-panel plot:
+- **Top panel**: Fear & Greed Index over time, color-coded by detected regime
+- **Bottom panel**: BTC 7-day volatility over time, also color-coded by regime
+
+Key observations:
+- **March 2020 (COVID)**: Sharp volatility spike to 3.5+ in bottom panel, with purple dots (Extreme Fear) dominating
+- **2020-2021 Bull Run**: Top panel shows sustained high sentiment (0.7-0.9), cyan/yellow colors (Greed)
+- **May 2022 (Terra/Luna)**: Volatility jumps to 1.5-2.0, sentiment crashes to 0.1-0.3 (purple cluster)
+- **Nov 2022 (FTX)**: Another volatility spike with low sentiment
+- **2023-2024**: Alternating between green (Mild Fear, 0.2-0.4 sentiment) and brown clusters (mid-range regimes)
+- **Late 2024-2025**: Return to higher sentiment (0.6-0.8) with low volatility
 
 Looking at the detailed cluster characteristics:
 
 ![Cluster feature distributions and statistics](/assets/images/market_fear_regime/6.png)
 
-This heatmap confirms that each cluster has distinct feature signatures. Cluster 2 (Extreme Fear) shows the highest volatility and lowest sentiment, while Cluster 4 (Extreme Greed) has the highest sentiment but moderate volatility — suggesting that greed phases can persist even with some price uncertainty.
+This heatmap confirms that each cluster has distinct feature signatures. The transition matrix reveals interesting regime dynamics:
+
+**Regime Persistence** (diagonal values):
+- Cluster 1 (Mild Fear): 0.81 — **most stable**, tends to stay in this state
+- Cluster 2 (Extreme Fear): 0.76 — also persistent during crisis periods
+- Cluster 4 (Extreme Greed): 0.42 — less stable, frequently transitions out
+- Cluster 3 (Optimism): 0.18 — **most transitional**, rarely persists
+- Cluster 0 (Neutral): 0.34 — moderate stability
+
+**Key Transitions**:
+- **From Neutral (0)**: Equal probability to Optimism (0.33) or Mild Fear (0.27) — balanced crossroads
+- **From Optimism (3)**: 46% jump to Neutral, 22% to Mild Fear — cooling down from optimism
+- **From Extreme Greed (4)**: 49% crash to Extreme Fear (2) — **greed directly flips to panic**
+- **From Extreme Fear (2)**: 76% stays fearful, but 15% jumps to Extreme Greed (4) — V-shaped recovery
+- **From Mild Fear (1)**: 81% persistence — the market's "default state" is sticky
+
+This explains why Mild Fear dominates (1026 days): once you enter it, there's an 81% chance you stay there tomorrow. Meanwhile, Extreme Greed is unstable (42% persistence) and often crashes directly to Extreme Fear (49% probability), skipping intermediate states.
 
 ### Key Findings
 
 The feasibility study validates that unsupervised clustering can successfully identify meaningful market regimes. Three simple features capture the regime structure without needing complex transformations. Using k=5 instead of k=3 improves cluster quality and reveals finer-grained market states. Most importantly, the detected regimes align with major market events, providing external validation of the approach.
-
-### Limitations & Next Steps
-
-**Current Limitations**:
-1. **Single-Asset Focus**: Only uses BTC features (ignores altcoin behavior)
-2. **No Network Analysis**: Can't detect systemic risk or contagion effects yet
-3. **Static Features**: Doesn't capture dynamic correlations or market breadth
-
-**Phase 2 Roadmap**:
-1. **Multi-Asset Features**: Add 19 altcoins, compute cross-correlations, market breadth
-2. **Network Construction**: Build correlation networks for each regime
-3. **Dynamic Network Analysis**: Compare network density/centrality across regimes (project's key differentiator)
-4. **Historical Validation**: Overlay 8-10 major events on regime timeline
 
 ---
 
@@ -173,10 +195,8 @@ The feasibility study validates that unsupervised clustering can successfully id
 
 This feasibility study confirms that **unsupervised learning can effectively identify cryptocurrency market regimes** using a minimal feature set. The validated approach now serves as a foundation for:
 
-- **Scaling to multi-asset features** (Phase 2)
-- **Network analysis** to study systemic risk (Phase 3)
-- **Final report** with research-level insights into regime-dependent market structure
-
+- Scaling to multi-asset features (Phase 2)
+- Network analysis to study systemic risk (Phase 3)
 
 Feasibility is proven, and the validated approach is ready for Phase 2 expansion.
 

@@ -1,5 +1,5 @@
 ---
-title: "Chapter II · The Structure of the European Banking Sector"
+title: "Finance Introduction: Chapter II - The Changing Structure of European Banking"
 date: 2024-11-18
 categories:
   - Financial Study Notes

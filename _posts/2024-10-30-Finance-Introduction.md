@@ -1,5 +1,5 @@
 ---
-title: "Chapter I · From Banks to Markets: The Evolution of Financial Intermediation"
+title: "Finance Introduction: Chapter I - The Evolution of Financial Intermediation"
 date: 2024-10-30
 categories:
   - Financial Study Notes
