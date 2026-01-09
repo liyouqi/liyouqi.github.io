@@ -27,6 +27,9 @@ mermaid: true
 ![Market Regimes](/assets/images/market_fear_regime/2.png)
 ### Motivation
 
+
+**Interactive Demo**: Check out the [live visualization](https://liyouqi.github.io/market-regime-identification/) to explore the market regimes and event analysis.
+
 The cryptocurrency market is known for extreme volatility and sentiment-driven price movements. Unlike traditional financial markets with decades of regulatory oversight, crypto markets shift between regimes quickly — from extreme fear (panic selling, high correlations) to extreme greed (FOMO rallies, overconfidence).
 
 The core challenge is identifying these market regimes without labeled historical data. Traditional supervised learning needs annotated examples ("this period was fear", "that period was greed"), but such labels are subjective and don't exist at scale. This project uses an unsupervised learning approach, applying clustering algorithms to discover latent market states from quantitative features.

@@ -1,5 +1,5 @@
 ---
-title: "Market Fear Regime Identification - Part 3: Multi-Asset Feature Engineering"
+title: "Market Fear Regime Identification - Part 3: Clustering & Network Analysis"
 date: 2025-11-29
 categories:
 - Data Mining
@@ -7,11 +7,11 @@ tags:
   - Cryptocurrency
   - Market Regimes
   - K-Means Clustering
-  - Feature Engineering
-  - Multi-Asset Analysis
-  - Market Breadth
-  - Correlation Analysis
-  - Contagion Risk
+  - Network Analysis
+  - Correlation Networks
+  - Systemic Risk
+  - Graph Theory
+  - Market Structure
 
 layout: single
 author_profile: true
@@ -22,102 +22,11 @@ share: true
 
 ## Introduction
 
-Part 1 established a baseline for market regime detection using three features: BTC daily returns, BTC 7-day volatility, and the normalized Fear & Greed Index. The clustering worked (Silhouette Score of 0.276 with k=5 clusters), but it had limitations. Using only BTC means we're ignoring what's happening across the broader market. If panic is spreading through multiple assets, we can't detect it. If only a few coins are rising while others decline, we miss that too.
+Part 2 engineered a refined feature set: BTC returns, BTC volatility, Fear & Greed sentiment, and market breadth. Now I apply K-Means clustering to discover latent market regimes and analyze how market structure—the network of correlations between assets—transforms across these regimes.
 
-This post expands the feature set to capture system-wide dynamics. I'm adding features that measure market breadth (how many coins are moving together), cross-asset correlations (market coupling), and volatility dispersion (contagion effects). The goal is to improve clustering quality by incorporating multi-asset signals.
+This post covers two interconnected analyses. First, determining the optimal number of clusters and characterizing the discovered regimes (Fear vs Greed). Second, constructing correlation-based networks for each regime and analyzing their topological properties. The hypothesis: fear regimes exhibit tighter coupling (higher network density) while greed regimes show more decoupled, idiosyncratic movements.
 
-## Baseline Review
-
-Before adding new features, I reproduced the Phase 1 results as a benchmark. Using BTC daily log returns, BTC 7-day annualized volatility, and normalized Fear & Greed Index, the K-Means clustering with k=5 achieved:
-
-| Metric | Value | Interpretation |
-|--------|-------|----------------|
-| Silhouette Score | 0.2756 | Moderate cluster quality |
-| Davies-Bouldin Index | 1.1197 | Acceptable separation (lower is better) |
-| Calinski-Harabasz | 914.69 | Solid baseline (higher is better) |
-
-The Silhouette Score of 0.276 indicates moderate cluster quality. Clusters are reasonably separated but with some overlap. The Davies-Bouldin Index (lower is better) at 1.12 suggests acceptable separation. The Calinski-Harabasz score of 915 (higher is better) provides a solid baseline.
-
-These metrics establish the benchmark. The question is whether multi-asset features can capture systemic risk patterns that BTC alone misses.
-
-## Multi-Asset Feature Engineering
-
-I engineered nine new features across three categories:
-
-### Market Breadth Indicators
-
-Market breadth measures how many assets participate in market movements. I calculated:
-
-- `pct_positive`: Percentage of the 20 cryptocurrencies with positive daily returns
-- `pct_above_ma50`: Percentage of assets trading above their 50-day moving average
-
-The rationale is simple. During fear regimes, few coins rise together (low breadth). During greed regimes, widespread participation happens (high breadth). These features capture market-wide sentiment that individual asset features can't.
-
-```python
-ret_cols = [f'ret_{coin}' for coin in coin_cols]
-df['pct_positive'] = (df[ret_cols] > 0).sum(axis=1) / len(coin_cols)
-
-for coin in coin_cols:
-    df[f'ma50_{coin}'] = df[coin].rolling(50).mean()
-ma_cols = [f'ma50_{coin}' for coin in coin_cols]
-df['pct_above_ma50'] = (df[coin_cols].values > df[ma_cols].values).sum(axis=1) / len(coin_cols)
-```
-
-### Cross-Asset Correlation Features
-
-Correlation features measure market coupling and systemic risk:
-
-- `btc_eth_corr_30d`: 30-day rolling correlation between BTC and ETH
-- `mean_pairwise_corr`: Average correlation across all 20 coins
-
-Financial theory suggests correlations spike during market stress as all assets move together in flight-to-safety behavior. In calm periods, correlations decrease as investors differentiate between assets. These features help distinguish coupled (systemic) from decoupled (idiosyncratic) market states.
-
-```python
-df['btc_eth_corr_30d'] = df['ret_BTC'].rolling(30).corr(df['ret_ETH'])
-
-def calc_mean_pairwise_corr(window=30):
-    corr_values = []
-    for i in range(window-1, len(df)):
-        window_data = df[ret_cols].iloc[i-window+1:i+1]
-        corr_matrix = window_data.corr()
-        upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-        mean_corr = upper_tri.stack().mean()
-        corr_values.append(mean_corr)
-    return [np.nan] * (window-1) + corr_values
-
-df['mean_pairwise_corr'] = calc_mean_pairwise_corr(30)
-```
-
-### Volatility Contagion Indicators
-
-These features measure dispersion of volatility and returns across the 20 cryptocurrencies:
-
-- `vol_dispersion`: Standard deviation of 7-day volatilities across all assets
-- `ret_dispersion`: Standard deviation of daily returns across all assets
-
-The contagion hypothesis is that during fear regimes with high contagion, dispersion is lower (all assets experiencing similar volatility/returns). During greed regimes with differentiated performance, dispersion is higher. These features quantify whether market stress is spreading uniformly or remaining isolated.
-
-```python
-for coin in coin_cols:
-    df[f'vol_7d_{coin}'] = df[f'ret_{coin}'].rolling(7).std() * np.sqrt(365)
-vol_cols = [f'vol_7d_{coin}' for coin in coin_cols]
-df['vol_dispersion'] = df[vol_cols].std(axis=1)
-df['ret_dispersion'] = df[ret_cols].std(axis=1)
-```
-
-## Feature Selection Through Testing
-
-I now had 3 baseline features plus 9 multi-asset features (12 total). Rather than using all of them, I tested different combinations to find which features actually improved clustering quality.
-
-After multiple experiments, the best configuration used only 4 features:
-- `ret_btc`: BTC daily log return
-- `vol_btc_7`: BTC 7-day volatility
-- `fg_norm`: Normalized Fear & Greed Index
-- `pct_positive`: Percentage of coins with positive returns
-
-The other multi-asset features either introduced noise or were redundant. ETH features were highly correlated with BTC. Correlation features and contagion features didn't significantly improve the clustering. Only `pct_positive` (market breadth) added meaningful signal.
-
-This was an important finding. Not all multi-asset features are useful. Market breadth captures system-wide risk appetite in a way that correlation or dispersion metrics don't.
+## Part 1: K-Means Clustering
 
 ## Optimal k Selection
 
@@ -137,7 +46,8 @@ Before clustering with the enhanced features, I needed to determine the optimal 
 
 **Optimal k (by Silhouette): 2 (Score: 0.2861)**
 
-![Optimal k selection plots](/assets/images/market_fear_regime/11.png)
+![Optimal k selection](/assets/images/market_fear_regime/1-feasible-silhouettes-score.png)
+*Figure 1: Silhouette Scores and Davies-Bouldin Index for different k values. k=2 achieves the highest Silhouette Score (0.286), indicating optimal cluster separation.*
 
 The Silhouette Score peaks at k=2 with 0.286, then drops significantly for k=3 (0.245). The Elbow plot shows WCSS decreasing steadily, but the "elbow" appears around k=2-3. The Davies-Bouldin Index improves with higher k, but this must be balanced against interpretability.
 
@@ -150,6 +60,9 @@ I decided to use k=2 for the enhanced clustering, even though this differs from 
 Before finalizing the features, I checked for multicollinearity. All pairwise correlations were below 0.8, indicating the four features provide complementary information without redundancy. BTC return and volatility showed expected low correlation. Fear & Greed Index showed moderate correlation with market breadth, confirming they capture related but distinct signals. No need for PCA or dimensionality reduction.
 
 ![Feature correlation heatmap](/assets/images/market_fear_regime/12.png)
+*Feature correlation matrix showing complementary information across all four features.*
+
+
 
 ## Enhanced Clustering Results
 
@@ -169,12 +82,16 @@ The enhanced model successfully improves clustering quality despite using fewer 
 
 The cluster statistics reveal distinct regime characteristics:
 
+![Feature space visualization](/assets/images/market_fear_regime/3-multiasset-cluster-centers.png)
+*Figure 2: Clusters in 2D feature space (PCA projection). Clear separation between Fear (red) and Greed (turquoise) regimes validates the k=2 choice.* 
+
 | Regime | Count (Days) | Mean Return | Volatility | Fear & Greed | Market Breadth |
 |--------|--------------|-------------|------------|--------------|----------------|
 | 0 (Fear) | 1,587 (55.6%) | -1.8% | 0.545 | 0.465 | 22.1% |
 | 1 (Greed) | 1,269 (44.4%) | +2.4% | 0.567 | 0.486 | 68.3% |
 
-![Regime statistics table](/assets/images/market_fear_regime/13.png)
+![Regime statistics](/assets/images/market_fear_regime/13.png)
+*Detailed statistical comparison of Fear vs Greed regimes across all features.*
 
 Regime 0 (Fear) covers 1,587 days (55.6% of the dataset):
 - Mean daily return: -1.8% (negative performance)
@@ -194,11 +111,103 @@ Regime 0 is larger, meaning fear states persist longer (56% of days). Markets sp
 
 The fairly balanced distribution (56% vs 44%) indicates both regimes are persistent market states, not rare anomalies.
 
-## PCA Visualization
+## Part 2: Network Analysis
+
+Now that we've identified two distinct regimes, the question becomes: how does market structure differ between them? Network analysis reveals the hidden architecture of asset relationships.
+
+### Correlation Networks
+
+For each regime, I constructed a correlation network where:
+- **Nodes** = 20 cryptocurrencies
+- **Edges** = significant correlations (threshold = 0.5)
+- **Edge weights** = correlation strength
+
+```python
+# Calculate correlation matrices for each regime
+df_fear = df[df['cluster'] == 0]
+df_greed = df[df['cluster'] == 1]
+
+ret_cols = [f'ret_{coin}' for coin in coin_cols]
+
+corr_fear = df_fear[ret_cols].corr()
+corr_greed = df_greed[ret_cols].corr()
+
+# Build networks with correlation threshold
+threshold = 0.5
+G_fear = nx.Graph()
+G_greed = nx.Graph()
+
+for i, coin_i in enumerate(coin_cols):
+    for j, coin_j in enumerate(coin_cols):
+        if i < j:  # upper triangle only
+            if abs(corr_fear.iloc[i, j]) > threshold:
+                G_fear.add_edge(coin_i, coin_j, weight=corr_fear.iloc[i, j])
+            if abs(corr_greed.iloc[i, j]) > threshold:
+                G_greed.add_edge(coin_i, coin_j, weight=corr_greed.iloc[i, j])
+```
+
+![Correlation heatmaps](/assets/images/market_fear_regime/4-network-Correlation Heatmaps.png)
+*Figure 4: Correlation heatmaps for Fear (left) and Greed (right) regimes. Fear regime shows much darker colors (higher correlations) across the board, indicating tighter coupling.*
+
+### Network Topology Metrics
+
+The structural differences are dramatic:
+
+| Metric | Fear Regime | Greed Regime | Ratio |
+|--------|-------------|--------------|-------|
+| **Network Density** | 0.805 | 0.342 | **2.35×** |
+| **Mean Correlation** | 0.71 | 0.47 | 1.52× |
+| **Mean Degree** | 15.3 | 6.5 | 2.35× |
+| **Clustering Coefficient** | 0.89 | 0.73 | 1.22× |
+
+**Network density** measures the proportion of actual edges to possible edges. Fear regime: 0.805 means 80.5% of all possible connections exist. Greed regime: only 34.2%. This is a **2.35× difference**—fear regimes exhibit massively higher interconnectedness.
+
+**Mean pairwise correlation**: 0.71 in fear vs 0.47 in greed. During market stress, correlations spike as flight-to-safety dominates. In greed regimes, investors differentiate between assets, reducing correlation.
+
+**Mean degree**: average number of significant correlations per asset. In fear, each coin correlates strongly with 15.3 others. In greed, only 6.5. This quantifies the collapse of diversification benefits during crisis.
+
+**Clustering coefficient**: measures how interconnected a node's neighbors are. High values (0.89 in fear) indicate tight cliques where everything moves together.
+
+
+### Degree Centrality Analysis
+
+Which assets are most central to each regime's network?
+
+**Fear Regime Top 5:**
+1. BTC (degree = 19, connected to all others)
+2. ETH (degree = 19)
+3. BNB (degree = 18)
+4. ADA (degree = 17)
+5. DOT (degree = 17)
+
+**Greed Regime Top 5:**
+1. BTC (degree = 11)
+2. ETH (degree = 10)
+3. LINK (degree = 9)
+4. BNB (degree = 8)
+5. ADA (degree = 8)
+
+BTC and ETH dominate both regimes, but their degree centrality drops by 42-47% in greed regimes. During fear, BTC's influence spreads to nearly all assets (19/19 connections). During greed, its influence is more selective (11/19).
+
+![Degree centrality distribution](/assets/images/market_fear_regime/6-network-hist-centrality.png)
+*Figure 6: Degree centrality distributions. Fear regime (red) shows most nodes have high degree (15-19), indicating uniform high connectivity. Greed regime (green) shows more variance, with some nodes having low degree (2-6), indicating heterogeneous influence.*
+
+### Financial Interpretation
+
+**Systemic Risk:** Fear regime's 2.35× higher density confirms increased systemic risk. When one asset drops, correlations ensure others follow. Contagion spreads rapidly through the tightly-coupled network.
+
+**Diversification Collapse:** With 80.5% of possible correlations active in fear regimes, traditional portfolio diversification fails. Holding multiple cryptocurrencies doesn't reduce risk—they all move together.
+
+**Decoupling in Greed:** The 34.2% density in greed regimes indicates genuine diversification opportunities. Assets follow more idiosyncratic paths, allowing selective strategies and sector rotation.
+
+**BTC as Systemic Hub:** BTC's consistent top centrality confirms its role as the market's systemic hub. However, its influence weakens in greed regimes, suggesting opportunities to profit from assets that deviate from BTC's trajectory.
+
+## PCA Visualization (Revisited)
 
 I used PCA to project the 4-dimensional feature space into 2D for visualization. The first two principal components capture about 70-80% of the total variance, meaning most information can be visualized in 2D.
 
 ![PCA scatter plot](/assets/images/market_fear_regime/14.png)
+*PCA visualization showing clear separation between Fear (red) and Greed (turquoise) regimes in 2D projected space.*
 
 The visualization shows clear separation between Regime 0 (red) and Regime 1 (turquoise). Some overlap exists in the boundary region, which is expected due to transitional periods. The separation validates the k=2 choice — the data naturally forms two clusters. This provides confidence that the clustering represents genuine structural differences rather than arbitrary partitioning.
 
@@ -207,6 +216,7 @@ The visualization shows clear separation between Regime 0 (red) and Regime 1 (tu
 The timeline visualization shows how regimes evolve over time. Clear alternation occurs between Regime 0 (fear) and Regime 1 (greed).
 
 ![Regime timeline plot](/assets/images/market_fear_regime/15.png)
+*Regime evolution over time (top: Fear & Greed Index with regime colors, bottom: BTC volatility with regime colors). Major market events clearly align with regime classifications.*
 
 Major fear periods are visible during:
 - Early 2020 (COVID crash)
@@ -223,10 +233,22 @@ Market regimes tend to persist for weeks to months before transitioning, suggest
 
 ## Key Takeaways
 
-The enhanced model with k=2 and 4 features successfully improves upon the baseline. The addition of `pct_positive` (market breadth) captures system-wide participation patterns that the BTC-only baseline missed. The shift to k=2 reveals that the market fundamentally operates in two regimes (Fear vs Greed) rather than five.
+**Two regimes, not five:** The market naturally forms two distinct regimes (Fear vs Greed) rather than five intermediate states. This binary classification aligns with the Risk-On/Risk-Off framework and provides clearer actionable insights.
 
-Testing all nine multi-asset features revealed that most don't add value. ETH features are redundant with BTC. Correlation features and contagion features introduce more noise than signal. Only market breadth meaningfully improves clustering. This validates the importance of testing rather than assuming all theoretically-motivated features will work.
+**Market breadth is critical:** The `pct_positive` feature (percentage of coins with positive returns) proved to be the key differentiator. The dramatic difference between 22% and 68% captures system-wide risk appetite better than sentiment indices alone.
 
-The clustering quality improved by 3.8% in Silhouette Score and 23.8% in Calinski-Harabasz Score. More importantly, the two-regime model provides clearer actionable insights for risk management. You can see when the market is in a fear state (low breadth, negative returns) versus a greed state (high breadth, positive returns).
+**Network structure transforms:** Fear regimes exhibit **2.35× higher network density** (0.805 vs 0.342), confirming massively increased systemic risk and correlation. This quantifies the collapse of diversification benefits during market stress.
 
-These persistent regimes with clear structural differences make them ideal candidates for network analysis. The next phase will examine how correlation networks differ between these two distinct market states — whether fear regimes show higher market coupling and BTC centrality, while greed regimes show more decoupled, idiosyncratic movements.
+**Diversification paradox:** In fear regimes, holding multiple cryptocurrencies doesn't reduce risk—80.5% of possible correlations are active. In greed regimes, only 34.2% density allows genuine diversification strategies.
+
+**BTC as systemic hub:** Bitcoin maintains top centrality in both regimes but its influence weakens in greed regimes (degree drops from 19 to 11). This suggests opportunities to profit from assets that deviate from BTC's trajectory during bull markets.
+
+**Persistent regimes:** Markets spend 56% of days in fear states and 44% in greed states. Regimes persist for weeks to months, not days, indicating stable structural states rather than noise.
+
+These findings have immediate risk management implications. During fear regimes, reduce leverage and accept that diversification won't protect you—everything moves together. During greed regimes, selective strategies and sector rotation become viable as correlations decouple.
+
+The next post will validate these regime classifications against major historical events (COVID crash, Terra/Luna collapse, FTX bankruptcy) to confirm whether the model correctly identifies real-world market dynamics.
+
+---
+
+*Notebooks: `03_multi_asset_features_fixed.ipynb`, `04_network_analysis.ipynb`*

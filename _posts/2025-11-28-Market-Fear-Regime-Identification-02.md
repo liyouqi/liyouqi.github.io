@@ -24,6 +24,8 @@ mermaid: true
 
 ## Feature Engineering
 
+**Interactive Demo**: Check out the [live visualization](https://liyouqi.github.io/market-regime-identification/) to explore the market regimes and event analysis.
+
 ### Design Philosophy
 
 I'm starting simple and expanding later. This feasibility study uses just 3 features: BTC returns, BTC volatility, and Fear & Greed sentiment. I want to validate that the basic approach works before adding 10+ multi-asset features. This avoids overfitting and keeps the initial clustering interpretable.
@@ -200,6 +202,4 @@ This feasibility study confirms that **unsupervised learning can effectively ide
 
 Feasibility is proven, and the validated approach is ready for Phase 2 expansion.
 
----
 
-*Notebook Files: `01_data_preparation.ipynb`, `02_feasible_study.ipynb`*
