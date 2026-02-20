@@ -139,31 +139,42 @@ OAuth 2.0 is basically the compromise between usability and security after years
 
 #### 2.4 The Token Trio
 
-Three main token tpyes:
+Three main token types:
 
-Access Token
+- **Access Token**  
+- **Refresh Token**  
+- **ID Token**  
 
-Refresh Token
+But most beginners don't know they come from different layers.
 
-ID Token
+| Token | Comes From | Purpose |
+|-------|-----------|---------|
+| Access Token | OAuth 2.0 | Call API |
+| Refresh Token | OAuth 2.0 | Get new Access Token |
+| ID Token | OpenID Connect | Verify user identity |
 
-But most beginners don’t know they come from different layers.
+The funny part is, most engineers (including my past self) think ID Token is part of OAuth. It's not. OIDC is just glued on top of OAuth.
 
-Token	Comes From	Purpose
-Access Token	OAuth 2.0	Call API
-Refresh Token	OAuth 2.0	Get new Access Token
-ID Token	OpenID Connect	Verify user identity
+OAuth alone doesn't tell you who the user is. So if you try to build login only with OAuth, you're missing a piece. You can still make it work, but the proper way is OIDC + OAuth — and yes, "Login with Google" is doing exactly that.
 
-The funny part is:
-Most engineers (including my past self) think ID Token is part of OAuth.
-It’s not. OIDC is just glued on top of OAuth.
+---
 
-OAuth alone does NOT give you “who the user is”.
-So if you try to build your login system only with OAuth, you're missing a piece.
+## 3. When Should You Actually Use OAuth?
 
-You can still make it work,
-but the right way is OIDC + OAuth
-(And yes, “Login with Google” is doing exactly that.)
+OAuth isn't a magic solution for everything.
 
+It makes sense when your app needs to access third-party resources (Google Calendar, GitHub, etc.), or when you want users to log in with existing accounts. Also good when you're building an API that other services will call, and you need scoped, revocable access.
 
-#TODO： To be continued...
+But if you're just building a simple login for your own app, or an internal admin panel — honestly, don't bother. Session-based auth or plain JWT is simpler and you'll spend way less time debugging redirect flows.
+
+I've seen teams waste weeks wiring up OAuth for a dashboard that had ten users. Just use sessions. Sometimes boring is the right call.
+
+---
+
+## 4. Final
+
+Authentication is one of those things where the right answer really depends on context. OAuth is great — but only when you actually need it. A lot of the problems I've seen came from people picking a solution first and then trying to fit the problem into it.
+
+I was originally going to cover the other three approaches too — custom JWT, Ruoyi's hybrid model, SAML for enterprise SSO. But this is already getting long, so maybe another time.
+
+And yeah — don't store tokens in localStorage.

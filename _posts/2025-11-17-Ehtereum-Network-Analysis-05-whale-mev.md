@@ -76,20 +76,8 @@ Net Flow: Value vs Centrality Whales
 TODO
 
 
-## 3. MEV Detection
-
-I look at patterns such as:
-
-- **very short time intervals** between actions  
-- **repeated interactions** with router contracts  
-- **triangular swap patterns** in the heterogeneous graph  
-
-### 3.1 Router Frequency
-
-
-### 3.2 Time Interval Patterns
-
-
-
-## 4. Mini Case Study
+MEV Detection
+3.1 Router Frequency
+3.2 Time Interval Patterns
+4. Mini Case Study
 

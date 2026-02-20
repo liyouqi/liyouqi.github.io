@@ -180,6 +180,7 @@ plt.show()
 
 ![Scatter plot of node degree vs. friends' average degree](/assets/images/friends_paradox/degree_scatter.png)
 
+
 Reading the plots:
 
 - **Histogram**: the “friends’ average degree” curve sits to the right—more high-degree nodes in view.  
@@ -194,7 +195,7 @@ G = nx.watts_strogatz_graph(n=2000, k=10, p=0.1)
 
 ---
 
-## Edges, not destinies (a small closing note)
+## Edges, not destinies (a small note)
 
 A few places where the effect softens:
 

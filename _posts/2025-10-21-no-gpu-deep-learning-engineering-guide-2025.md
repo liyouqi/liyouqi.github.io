@@ -202,7 +202,7 @@ It wasn’t pretty, but it was reliable, and it kept me from relying on a GPU I 
 The next part is where things got more serious: actually training large-ish models on hardware that shouldn’t have been able to run them in the first place.
 
 
-# Closing Thoughts
+# Thoughts
 
 To be honest, GPU is just a small part of the deep learning ecosystem. The data, pipeline, environment, and deployment matter just as much — if not more.
 

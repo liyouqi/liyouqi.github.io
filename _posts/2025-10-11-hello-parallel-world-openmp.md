@@ -152,4 +152,4 @@ If `nthreads` doesn’t change, your environment or container might be constrain
 - High optimization levels can erase what looks like “dead” work—keep a side effect (prints or timers) while exploring.
 
 ## Closing thought
-This small program is not about speed; it’s about **contact**—touching the thread runtime, seeing the messy edges, and getting comfortable. From here, the next post will slice an integral into pieces and ask the team to cooperate (and disagree) over shared state.
+This small program is not about speed; it’s about contact—touching the thread runtime, seeing the messy edges, and getting comfortable. From here, the next post will slice an integral into pieces and ask the team to cooperate (and disagree) over shared state.
