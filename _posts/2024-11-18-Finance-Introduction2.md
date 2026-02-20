@@ -45,9 +45,9 @@ Cross-border lending fell, and mergers turned inward.
 ![Post-2008 financial crisis in Europe](/assets/images/finance_intro/21.png)
 
 Regulation stepped in as a new gravitational force.  
-The European Central Bank (ECB) created the **Banking Union**, introducing common supervision and resolution mechanisms.  
-Banks were now classified as **Significant Institutions (SIs)** or **Less Significant Institutions (LSIs)**,  
-and the largest ones — the **G-SIBs (Global Systemically Important Banks)** — were subject to stricter oversight.  
+The European Central Bank (ECB) created the Banking Union, introducing common supervision and resolution mechanisms.  
+Banks were now classified as Significant Institutions (SIs) or Less Significant Institutions (LSIs),  
+and the largest ones — the G-SIBs (Global Systemically Important Banks) — were subject to stricter oversight.  
 
 Capital buffers grew, leverage was limited, and liquidity coverage ratios became the new language of survival.  
 In short, banks went on a regulatory diet.
@@ -83,6 +83,6 @@ Maybe resilience isn’t about avoiding shocks, but about learning how to bend w
 
 ---
 
-And somewhere in this steady balancing act lies the space where **FinTech** grows:  
+And somewhere in this steady balancing act lies the space where FinTech grows:  
 between the old institutions that learned to survive,  
 and the new ones still learning how to matter.

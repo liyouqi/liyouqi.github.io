@@ -29,7 +29,7 @@ Past couple years saw a flood of new concepts: RAG, Agent Skills, MCP. Each solv
 
 I'll walk through these three patterns and see what they reveal about how AI tools are shifting from general-purpose platforms to vertical applications. From "AI can do X" to "here's a system that reliably does X at production scale."
 
-## Part 1: Agent Skills - Modular Capabilities
+## 1. Agent Skills - Modular Capabilities
 
 ### The Problem
 
@@ -149,7 +149,7 @@ Pattern mirrors open source library distribution. Companies that previously open
 
 Skills distribute via npm, pip, or direct GitHub clones. Installation is file-based. Copy skill folders to `~/.claude/skills/` or `.claude/skills/` for project-specific skills. AI runtime discovers and loads them automatically.
 
-## Part 2: Model Context Protocol - Standardized Tool Layer
+##  2.  Model Context Protocol - Standardized Tool Layer
 
 ### The Fragmentation Problem
 
@@ -401,7 +401,7 @@ Client configuration (JSON):
 
 Configuration-driven approach enables dynamic server management. Adding new tools needs config entry, not code modification. Infrastructure as configuration, not infrastructure as code.
 
-## Part 3: RAG - External Knowledge Access
+##  3. RAG - External Knowledge Access
 
 ### The Knowledge Problem
 

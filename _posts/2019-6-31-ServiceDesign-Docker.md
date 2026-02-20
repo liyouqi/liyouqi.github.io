@@ -16,7 +16,7 @@ share: true
 
 ## Introduction — The Curiosity Behind a Box
 
-It started with a simple question: **what does it really mean to “containerize” something?**  
+It started with a simple question: what does it really mean to “containerize” something?  
 Not in the corporate sense, not in a DevOps guide, but conceptually.  
 What is so fascinating about isolating an application inside a small box,  
 making it portable, reproducible, and almost… alive?
@@ -48,7 +48,7 @@ complete with its own filesystem, user, and configuration,
 waiting to be instantiated.  
 
 When I typed `docker run`, it didn’t feel like launching an app;  
-it felt like **spawning a small universe** inside my machine.  
+it felt like spawning a small universe inside my machine.  
 Suddenly, “isolation” wasn’t a problem — it was elegance.
 
 {% include figure image_path="/assets/images/service_design/docker/docker_ps.png" alt="Docker running containers" caption="First containers running: PostgreSQL and pgAdmin" %}
@@ -73,7 +73,7 @@ These short commands carried so much meaning.
 Every `-e` was a handshake — an agreement about environment and identity.  
 Every `-p` was a bridge between isolated worlds.  
 When I saw both containers listed under `docker ps`,  
-it felt less like managing software and more like **composing architecture**.
+it felt less like managing software and more like composing architecture.
 
 {% include figure image_path="/assets/images/service_design/docker/docker_ports.png" alt="Container ports mapping" caption="Port mapping: 5432 for Postgres, 5050 for pgAdmin" %}
 
@@ -144,7 +144,7 @@ Two containers, two purposes, one network.
 It wasn’t automation anymore; it was orchestration.  
 
 Watching the logs stream by, I realized that `docker-compose` is less about scripting,  
-and more about **relationships**.  
+and more about relationships.  
 It’s about describing how things coexist — not how they’re built.
 
 > Orchestration isn’t about control; it’s about harmony.
@@ -154,7 +154,7 @@ It’s about describing how things coexist — not how they’re built.
 ## From Containers to Microservices — The Mental Leap
 
 After this lab, containers stopped being a tool in my mind.  
-They became **a metaphor for modular design**.  
+They became a metaphor for modular design.  
 
 From the *Microservices and Containers Overview*, one sentence resonated with me:  
 > *Containers represent the physical boundary of a service; microservices represent its logical boundary.*
@@ -169,7 +169,7 @@ Containers make that city possible.
 They give physical shape to independence,  
 allowing teams (or even individuals) to design, test, and deploy without breaking others.  
 And yet, every container must eventually talk — through ports, APIs, queues, or networks.  
-That tension between **isolation and connection** is what makes this concept beautiful.
+That tension between isolation and connection is what makes this concept beautiful.
 
 {% include figure image_path="/assets/images/service_design/docker/microservices_city.png" alt="Microservices city metaphor" caption="From isolated boxes to connected systems — a city of microservices" %}
 
@@ -178,10 +178,10 @@ That tension between **isolation and connection** is what makes this concept bea
 ## What I Learned — Thinking in Systems
 
 By the end, this lab was no longer about Docker.  
-It was about **how systems live and communicate**.  
+It was about how systems live and communicate.  
 About boundaries that protect without disconnecting.  
 About how abstraction — when done right — doesn’t hide complexity,  
-it **tames** it.
+it tames it.
 
 Every time I ran `docker exec`,  
 I wasn’t just executing a command inside a container —  

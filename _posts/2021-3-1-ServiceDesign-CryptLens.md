@@ -152,31 +152,13 @@ else:
     dt = pd.to_datetime(ts, unit="s")
 ```
 ---
-
-## Final Result
-
-- A clean crypto monitoring dashboard  
-- Quantitative metrics  
-- Real-time data  
-- Automatic alerts  
-- Modular services  
-
-It’s simple but real — and most importantly, extensible.
-
----
+ 
 
 ## Future Extensions
-I plan to add:
+Nothing special planned, but the modular design allows for easy additions and something interesting comes to my mind:
 - Multi-exchange support  
 - Live WebSocket streaming  
 - ML-based forecasts  
 - Custom user-defined alerts  
 - Time-series database integration  
 - Portfolio risk analysis  
-
----
-
-## Closing Thoughts
-CryptoLens is just a starting point, we can build so much more on this foundation.
-
-  

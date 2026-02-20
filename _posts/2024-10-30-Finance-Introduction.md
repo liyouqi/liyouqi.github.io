@@ -24,18 +24,18 @@ At first, it sounded like common sense.
 Yes, it is, banks, financial, economics etc, those things like the air we breathe but rarely think about.
 
 Later I realized that almost the entire modern financial system depends on this very question.  
-This first chapter explored the idea of **financial intermediation** — the invisible mechanism that connects lenders and borrowers, risk and return.  
+This first chapter explored the idea of financial intermediation — the invisible mechanism that connects lenders and borrowers, risk and return.  
 It’s what gives banks their reason to exist, and perhaps, what explains why they’ve had to change.
 
 ---
 
 ### 1. The basics of financial intermediation
 
-According to Gurley and Shaw (1960), there are two main types of agents in finance: **fund suppliers** and **fund seekers**.  
+According to Gurley and Shaw (1960), there are two main types of agents in finance: fund suppliers and fund seekers.  
 They can meet in two ways:
 
-- **Direct finance** — firms issue securities, investors buy them, and capital flows directly between both sides.  
-- **Indirect finance** — banks or other intermediaries collect deposits and lend them out, standing in the middle.
+- Direct finance — firms issue securities, investors buy them, and capital flows directly between both sides.  
+- Indirect finance — banks or other intermediaries collect deposits and lend them out, standing in the middle.
 
 ![Simplified flow between lenders, banks and borrowers](/assets/images/finance_intro/2.png)
 
@@ -54,7 +54,7 @@ Since the 1980s, banks have shifted from *originate-to-hold* — keeping loans o
 The idea is simple: instead of holding risk, banks now sell it.
 
 A typical example we saw in class:  
-a bank originates a pool of mortgage loans, transfers them to a **Special Purpose Vehicle (SPV)**, and that SPV slices them into tranches — senior, mezzanine, equity — and issues **Asset-Backed Securities (ABS)** to investors.  
+a bank originates a pool of mortgage loans, transfers them to a Special Purpose Vehicle (SPV), and that SPV slices them into tranches — senior, mezzanine, equity — and issues Asset-Backed Securities (ABS) to investors.  
 The bank gets cash, frees up capital, and moves on to originate more loans.
 
 ![Simplified illustration of securitization process](/assets/images/finance_intro/3.png)
@@ -71,7 +71,7 @@ I remember the professor pausing on one slide and saying quietly:
 ### 3. Regulation and capital constraints
 
 Another reason behind this transformation lies in regulation.  
-Banks must keep minimum capital ratios — like the **McDonough ratio** (≥8%) or leverage ratio (>3%) — to ensure stability.  
+Banks must keep minimum capital ratios — like the McDonough ratio (≥8%) or leverage ratio (>3%) — to ensure stability.  
 That limits how much they can lend.  
 
 So securitization became a kind of elegant workaround:  
@@ -98,6 +98,6 @@ Information began to matter more than capital.
 
 ![Abstract concept of data replacing capital](/assets/images/finance_intro/4.png)
 
-And maybe that’s where **FinTech** quietly started:  
+And maybe that’s where FinTech quietly started:  
 when banks stepped back, and data stepped forward.  
-Finance became less about “money” and more about **connection**.
+Finance became less about “money” and more about connection.

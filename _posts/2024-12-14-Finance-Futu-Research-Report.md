@@ -112,3 +112,5 @@ Within all this, the scope reads broader than a narrow broker: execution plus fi
 No doubt, Futu is an interesting case study in digital brokerage and has made notable strides in user acquisition and platform development. 
 
 Besides the information I got from Bloomberg Terminal, I believe there are still some critical factors worth investigating further: how much benefit does Futu get from as a channel between mainland China and international markets? Because we know that there are tremendous demand from Chinese retail investors to access overseas markets, and Futu seems to be well positioned to capture that flow. What's gonna happen if regulatory environment changes? We will see.
+
+In the end, to be honest, there are a lots of knowledge I still need to learn in finance, e.g., company valuation, financial modeling and even statement analysis. 

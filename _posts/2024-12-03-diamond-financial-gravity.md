@@ -21,11 +21,11 @@ share: true
 When an apple falls from a tree, no one is surprised.
 It feels obvious, almost trivial.
 But before Newton, that motion had no unified explanation — it was merely *what apples do*.
-Newton changed that: he turned an everyday fact into a universal law, showing that gravity was not a mystery, but a **systemic force** that shaped the world.
+Newton changed that: he turned an everyday fact into a universal law, showing that gravity was not a mystery, but a systemic force that shaped the world.
 
 Banks, too, seem obvious. They accept deposits, make loans, and sit quietly at the center of the economy.
 We treat them as fixtures of capitalism, as natural as falling apples.
-Yet before **Douglas Diamond’s model of delegated monitoring**, few asked *why* banks must exist at all.
+Yet before Douglas Diamond’s model of delegated monitoring, few asked *why* banks must exist at all.
 Were they historical accidents, or the natural outcome of deeper economic laws?
 
 Diamond’s 1996 teaching paper — a simplified version of his 1984 classic — does for banking what Newton did for motion.
@@ -36,7 +36,7 @@ It shows that when trust is costly and information is uneven, the gravitational 
 
 # 1. The natural force behind intermediation
 
-In Diamond’s world, the invisible force is **information asymmetry**.
+In Diamond’s world, the invisible force is information asymmetry.
 Borrowers know whether their projects succeed or fail; lenders do not.
 Without verification, a borrower can easily say, “the project failed,” and keep the profit.
 Lenders, unable to tell truth from deceit, must design contracts to protect themselves.
@@ -55,14 +55,14 @@ $$
 $$
 
 The borrower must promise to repay 31% more than borrowed.
-This high rate is not due to productive risk, but **informational risk** — the cost of distrust.
+This high rate is not due to productive risk, but informational risk — the cost of distrust.
 Like lifting an apple upward, it takes extra energy to fight the pull of uncertainty.
 
 ---
 
 # 2. Monitoring: the counterforce to mistrust
 
-Now suppose the lender can **monitor** the borrower at a cost ( K ).
+Now suppose the lender can monitor the borrower at a cost ( K ).
 Monitoring reveals whether failure was genuine or fake.
 By avoiding unnecessary liquidation, the lender can save part of the wasted output — say ( S = 0.2 ).
 
@@ -73,7 +73,7 @@ This is the first key insight:
 > decentralized trust is expensive; collective trust is cheaper.
 
 At this point, the economic “gravity” becomes clear.
-There’s a natural pull toward **delegation** —
+There’s a natural pull toward delegation —
 to appoint one agent to monitor on behalf of all.
 
 ---
@@ -88,7 +88,7 @@ But now a new problem arises:
 if depositors no longer monitor the bank, what ensures that the bank itself monitors borrowers?
 Who watches the watcher?
 
-Diamond’s elegant answer is **debt**.
+Diamond’s elegant answer is debt.
 If the bank finances itself with short-term deposits that can be withdrawn or trigger liquidation,
 it has strong incentives to behave — to actually monitor borrowers and avoid default.
 
@@ -106,7 +106,7 @@ A self-stabilizing chain of incentives emerges — a financial solar system boun
 
 A single monitored loan is still risky.
 Even with honest monitoring, some projects fail, and the bank may face liquidation.
-But if the bank lends to **many independent borrowers**, things change dramatically.
+But if the bank lends to many independent borrowers, things change dramatically.
 
 Consider two uncorrelated loans:
 
@@ -115,7 +115,7 @@ Consider two uncorrelated loans:
 * both fail with ( 0.04 )
 
 The chance of the bank’s total failure drops from 20% to 4%.
-Each new loan adds diversification — a kind of **mass** that stabilizes the system.
+Each new loan adds diversification — a kind of mass that stabilizes the system.
 In the limit of infinitely many loans:
 
 $$
@@ -144,9 +144,9 @@ Each element aligns like planets in a gravitational field:
 | Debt contracts        | Discipline intermediaries       | Incentive alignment |
 | Diversification       | Reduces failure probability     | Systemic stability  |
 
-Together they form a **law of financial gravity**:
+Together they form a law of financial gravity:
 if you start with rational agents, asymmetric information, and costly monitoring,
-the stable equilibrium — the system that economizes on trust — **is a banking system**.
+the stable equilibrium — the system that economizes on trust — is a banking system.
 
 Even without regulation or history, such institutions would spontaneously form.
 The same way gravity organizes matter into orbits, these forces organize finance into intermediated structures.
@@ -180,9 +180,9 @@ Diamond’s insight has aged remarkably well.
 Even in the FinTech era, where platforms promise “disintermediation,”
 the core functions quietly reappear:
 
-* **Delegation of trust** (users rely on platform credit scoring),
-* **Pooling of risk** (funds spread across many borrowers),
-* **Contractual discipline** (automated defaults, platform control).
+* Delegation of trust (users rely on platform credit scoring),
+* Pooling of risk (funds spread across many borrowers),
+* Contractual discipline (automated defaults, platform control).
 
 In short, the gravitational law still holds —
 the names change, the orbits evolve, but the underlying pull remains.
@@ -203,7 +203,7 @@ there will be a force pulling economic agents into intermediation.
 Banks exist not because someone built them,
 but because the world would fall apart without them.
 
-> **They are the equilibrium outcome of human mistrust — the gravity that keeps finance from drifting away.**
+> They are the equilibrium outcome of human mistrust — the gravity that keeps finance from drifting away.
 
 ---
 
@@ -216,7 +216,8 @@ Graduate School of Business, University of Chicago.
 
 ---
 
-> **“Banks exist not by design, but by gravity.”**
+> “Banks exist not by design, but by gravity.”
 > — This is my reinterpretation of Diamond’s law
+And  my favorite quote from the paper. 
 
 
