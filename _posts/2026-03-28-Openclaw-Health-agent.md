@@ -56,7 +56,7 @@ c config set llm.model "deepseek-chat"
 At this point I honestly thought I was done with setup. That was optimistic.
 
 
-![Tencent Cloud Console and DeepSeek API configuration screenshot](/assets/images/AI-Agent-Health/1.png)
+![Tencent Cloud Console and DeepSeek API configuration screenshot](/assets/images/AI-openclaw/1.png)
 
 As you can see, that's very convinien
 
@@ -147,3 +147,5 @@ This project is a personal health-support tool for family use. It is not medical
 Now another need is emerging: more family members want their own version of this private assistant. So the next step for me is to make the design more modular and reusable, with multi-user management and a more flexible instruction layer that can support health parameters beyond blood pressure.
 
 The journey continues.
+
+What's  more, when the conversation gets more complex and expands, especially when it involves a time series of health data and report, I will need to build a more robust memory system to track trends and history, so that the assistant can provide more personalized and context-aware feedback. So, vector databases and RAG is necessary for the next stage.
