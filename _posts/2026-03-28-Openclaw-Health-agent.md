@@ -1,5 +1,5 @@
 ---
-title: "Building OpenClaw Health Agent: A Blood Pressure Assistant for My Family in China"
+title: "Building OpenClaw Health Agent: A Blood Pressure Assistant for My Family on WeChat"
 date: 2026-03-28
 categories:
 - AI
@@ -17,7 +17,6 @@ comments: false
 share: true
 ---
 
-# Building from Scratch: An OpenClaw Blood Pressure Assistant for My Family on WeChat
 
 I started this project for a very personal reason.
 
