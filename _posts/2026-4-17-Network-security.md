@@ -89,8 +89,33 @@ docker run -d --name log-monitor -p 8888:8080 --network security-lab -v /var/run
 
 It is not a SIEM, and I did not use it like one. It was just a quick way to see whether anything noisy happened on victim-server or victim-app while Nessus was running.
 
+## Fix one of the findings
+The UnrealIRCd backdoor was a good candidate for a quick fix, so I went into the container and verified the issue.
+
+```bash
+docker exec -it victim-server /bin/bash   # enter the victim container
+
+sudo netstat -anpt | grep 6667   # check if the backdoor is still listening on port 6667
+```
+
+Then I stopped the service and verified that it was no longer listening.
+![verify](/assets/images/Cybersecurity/tenable/11.png)
+
+```bash
+sudo killall unrealircd
+or
+sudo /etc/init.d/unrealircd stop
+
+```
+
+After that, I ran the scan again to see how the report changed. The UnrealIRCd finding was gone, but there were still some other issues to look at, but it is not high leakage, so I will leave it for now.
+
+![scan again](/assets/images/Cybersecurity/tenable/12.png)
+
+The rest of the work would be to build a classification of the findings, prioritize them, and then build a management and dispatching process to make sure they get fixed in a reasonable time frame and correspond team members to the right issues.
+
 ## What I learned
 
-This was simple, but it still showed the main point clearly. A network scan gives you the shape of the target, a credentialed scan gives you a deeper view, and log watching helps you connect what the scanner sees with what the system is actually doing.
+This was pretty simple, but it still showed the main point clearly. A network scan gives you the shape of the target, a credentialed scan gives you a deeper view, and log watching helps you connect what the scanner sees with what the system is actually doing.
 
 I will probably try Loki and Grafana next time, since Dozzle is good for a quick look but not enough if I want to keep history and compare patterns later.
