@@ -38,10 +38,10 @@ No doubt, authentication is the first line of defense against unauthorized acces
 
 I am going to discuss four main authentication approaches that I have worked or collaborated with over the years:
 
-- **Custom-built authentication (Session or JWT-based)**  
-- **Ruoyi's JWT approach (JWT + Redis hybrid model)**  
-- **OAuth 2.0 (third-party authorization)**  
-- **SAML SSO (enterprise single sign-on)**  
+- Custom-built authentication (Session or JWT-based)
+- Ruoyi's JWT approach (JWT + Redis hybrid model) 
+- OAuth 2.0 (third-party authorization) 
+- SAML SSO (enterprise single sign-on)
 
 These solutions do not compete with each other — they solve different problems and excel in different environments. I just want to share my experience and insights on when and why to choose each approach.
 
@@ -53,7 +53,7 @@ Why I said foundation? Because OAuth 2.0 is not an authentication protocol, but 
 
 OAuth 2.0 is widely adopted, let us dive into its core principles.
 
-> **How can a third-party application access a user’s resources without asking for the user’s password?**
+> How can a third-party application access a user’s resources without asking for the user’s password?
 
 Before OAuth existed, third-party apps had to store and use user passwords directly. This created serious problems:
 - Password reuse across services  
@@ -71,7 +71,7 @@ OAuth solved this by introducing a system where:
 
 At its core, OAuth 2.0 revolves around a simple idea:
 
-> **Users should authorize apps using tokens—not passwords.**
+> Users should authorize apps using tokens—not passwords.
 
 This shift has made OAuth the backbone of modern internet authentication flows (Google, Facebook, GitHub, Apple, Microsoft), mobile app login, and almost all API integrations.
 
@@ -105,7 +105,7 @@ But after actually implementing it in a real project — handling redirects, tok
 It only cares about what you are allowed to do.
 
 That’s the difference between authentication (AuthN) and authorization (AuthZ).  
-OAuth only solves **authorization**.  
+OAuth only solves authorization.  
 If you want authentication, you need OpenID Connect stacked on top of it.
 
 I didn’t understand that earlier. Nobody in my team understood that either.  
@@ -114,11 +114,11 @@ We were using OAuth to do login, and we thought we were geniuses.
 To really understand OAuth, you have to understand the four actors.  
 Once you get this mental model right, everything becomes obvious.
 
-#### **2.3 The Four Actors**
-- **User / Resource Owner** – the person whose data we want to access  
-- **Client** – your app, which wants access  
-- **Authorization Server** – the “police officer” that checks if the user agrees  
-- **Resource Server** – the actual API that holds the data  
+#### **2.3 The Four Actors
+- User / Resource Owner – the person whose data we want to access  
+- Client – your app, which wants access  
+- Authorization Server – the “police officer” that checks if the user agrees  
+- Resource Server – the actual API that holds the data  
 
 In real life:
 
@@ -141,9 +141,9 @@ OAuth 2.0 is basically the compromise between usability and security after years
 
 Three main token types:
 
-- **Access Token**  
-- **Refresh Token**  
-- **ID Token**  
+- Access Token  
+- Refresh Token
+- ID Token  
 
 But most beginners don't know they come from different layers.
 
