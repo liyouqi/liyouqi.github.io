@@ -5,11 +5,15 @@ categories:
   - Cybersecurity
 tags:
   - Cybersecurity
+  - Network Security
   - Fintech
   - DORA
+  - Vulnerability Management
+  - Digital Operational Resilience Act
+  - GRC
   - Regulatory Compliance
   - EU Regulation
-  - Digital Operational Resilience Act
+  - Governance, Risk, and Compliance
 
 layout: single
 author_profile: true

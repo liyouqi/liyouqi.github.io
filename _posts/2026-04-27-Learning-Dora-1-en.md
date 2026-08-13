@@ -10,6 +10,10 @@ tags:
   - DORA
   - Vulnerability Management
   - Digital Operational Resilience Act
+  - GRC
+  - Regulatory Compliance
+  - EU Regulation
+  - Governance, Risk, and Compliance
 
 layout: single
 author_profile: true

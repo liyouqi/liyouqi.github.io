@@ -3,17 +3,19 @@
 title: "学习DORA 03｜系统都外包给云厂商了，出了事到底算谁的？"
 date: 2026-04-29
 categories:
-
-* Cybersecurity
-  tags:
-* Cybersecurity
-* Fintech
-* DORA
-* ICT Risk
-* Third Party Risk
-* Cloud Security
-* CTPP
-* Digital Operational Resilience Act
+  - Cybersecurity
+tags:
+  - Cybersecurity
+  - Network Security
+  - Fintech
+  - DORA
+  - Vulnerability Management
+  - Digital Operational Resilience Act
+  - GRC
+  - Regulatory Compliance
+  - EU Regulation
+  - Governance, Risk, and Compliance
+---
 
 layout: single
 author_profile: true

@@ -5,13 +5,15 @@ categories:
   - Cybersecurity
 tags:
   - Cybersecurity
+  - Network Security
   - Fintech
   - DORA
-  - ICT Risk
-  - Third Party Risk
-  - Cloud Security
-  - CTPP
+  - Vulnerability Management
   - Digital Operational Resilience Act
+  - GRC
+  - Regulatory Compliance
+  - EU Regulation
+  - Governance, Risk, and Compliance
 ---
 
 Today AI started by asking me a question.
