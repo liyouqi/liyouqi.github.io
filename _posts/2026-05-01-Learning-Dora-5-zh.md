@@ -145,31 +145,31 @@ Search / Graph / RAG / Agent
 
 当我开始做法规结构化以后，新的麻烦马上又来了。
 
-EUR-Lex有HTML、XML和各种metadata，CELLAR里面还有RDF。不同来源长得都不一样。如果每个下游模块都自己理解一次这些原始格式，那以后Search写一套、Graph写一套、RAG又写一套，项目估计很快就没法看了。
+Laws有HTML、XML和各种metadata，CELLAR里面还有RDF。不同来源长得都不一样。如果每个下游模块都自己理解一次这些原始格式，那以后Search写一套、Graph写一套、RAG又写一套，项目估计很快就没法看了。
 
 所以后来中间又多出来一层东西：
 
 **Parser → Canonical → DocumentView**
 
-我第一次看到Canonical这个词的时候很难很难理解，又是架构里面那种听起来特别唬人的单词。我粗浅的理解，就是文字结构上的归一化，当然，不是那么精确，但这样好理解点，拿EUR-Lex来说就好理解多了。
+最早看到Canonical这个词的时候很难很难理解，又是架构里面那种听起来特别唬人的单词。我粗浅的理解，就是文字结构上的归一化，当然，不是那么精确，但这样好理解点，拿Laws来说就好理解多了。
 
-EUR-Lex给我的东西，不等于我系统里应该直接存的东西
+Laws给我的东西，不等于我系统里应该直接存的东西
 
-刚开始我想得特别简单，EUR-Lex已经把法规放在那里了，那直接抓下来不就行了吗。网页上Article、Chapter、正文都排得好好的，HTML能看，XML也有，CELLAR里面还有metadata和RDF。问题是，这些东西虽然都在描述同一部法规，但长得完全不一样。有些信息在HTML里面很好找，有些东西XML更稳定，有些法律关系反而在RDF里面更清楚。
+想得特别简单，Laws已经把法规放在那里了，那直接抓下来不就行了吗。网页上Article、Chapter、正文都排得好好的，HTML能看，XML也有，CELLAR里面还有metadata和RDF。问题是，这些东西虽然都在描述同一部法规，但长得完全不一样。有些信息在HTML里面很好找，有些东西XML更稳定，有些法律关系反而在RDF里面更清楚。
 
 如果直接让后面的Search、Graph、RAG和前端各自去理解这些原始数据，项目很快就会变得很乱。Search自己认一遍Article，Graph再认一遍Legal Resource，RAG又用一套我自己清洗过的JSON，前端为了展示还得再写一遍。最麻烦的不是代码多，而是同一个东西可能在不同模块里面被理解成不同的东西。Article在这里是Article，在另外一个模块里面可能就只剩一段text了。以后上游字段一变，我也不知道到底要改几个地方。
 
 所以后来我把这件事硬拆成三层。Parser负责把外面的东西读进来，Canonical负责规定进来以后它到底是什么，DocumentView再决定最后给人怎么看。
 
-Parser其实最好理解。EUR-Lex给我XML，那Parser就把CELEX、Title、Chapter、Article、Paragraph、Recital、Annex这些能明确识别出来的东西拿出来。如果换成HTML，就换另外一个Parser。这里我后来越来越坚持一个原则：Parser不要太聪明。 刚开始我特别容易看到一段法规以后，顺手再判断一下这是不是obligation、是不是exception、属于哪个risk topic，甚至想顺便把chunk都切了。写的时候觉得很爽，一个function什么都干，过两个月基本不敢碰。现在Parser尽量只处理确定的东西。Article 5就是Article 5，CELEX就是CELEX，这段属于Chapter II，就把这个结构留下来。至于它到底是不是Access Management相关义务，已经不是Parser应该决定的事情。
+Parser其实最好理解。Laws给我XML，那Parser就把CELEX、Title、Chapter、Article、Paragraph、Recital、Annex这些能明确识别出来的东西拿出来。如果换成HTML，就换另外一个Parser。这里我后来越来越坚持一个原则：Parser不要太聪明。 刚开始我特别容易看到一段法规以后，顺手再判断一下这是不是obligation、是不是exception、属于哪个risk topic，甚至想顺便把chunk都切了。写的时候觉得很爽，一个function什么都干，过两个月基本不敢碰。现在Parser尽量只处理确定的东西。Article 5就是Article 5，CELEX就是CELEX，这段属于Chapter II，就把这个结构留下来。至于它到底是不是Access Management相关义务，已经不是Parser应该决定的事情。
 
 Canonical才是我真正绕了很久的地方
 
-Parser把数据拿出来以后，最直接的办法当然是直接存。比如一个Article存成number、title、text，看起来完全够用了。问题是，今天EUR-Lex XML里面这个字段叫一个名字，明天HTML里面可能叫另外一个名字，再换一个来源，甚至可能根本没有同样的字段结构。总不能让整个系统知道外面所有网站是怎么设计的。
+Parser把数据拿出来以后，最直接的办法当然是直接存。比如一个Article存成number、title、text，看起来完全够用了。问题是，今天Laws XML里面这个字段叫一个名字，明天HTML里面可能叫另外一个名字，再换一个来源，甚至可能根本没有同样的字段结构。总不能让整个系统知道外面所有网站是怎么设计的。
 
 所以Canonical存在的意义就是：外面的数据我管不了，但进了我的系统以后，得按我的规矩来。
 
-这里真正重要的其实不是字段怎么命名，而是系统开始有自己稳定的一套法规结构。以前是EUR-Lex怎么给，我就怎么用；现在EUR-Lex只是source，进来以后先变成我自己的Canonical Model。以后哪怕换一个数据源，理论上也只是前面的Parser变化，后面的Search、Graph、RAG和API不应该全部跟着改。
+这里真正重要的其实不是字段怎么命名，而是系统开始有自己稳定的一套法规结构。以前是Laws怎么给，我就怎么用；现在Laws只是source，进来以后先变成我自己的Canonical Model。以后哪怕换一个数据源，理论上也只是前面的Parser变化，后面的Search、Graph、RAG和API不应该全部跟着改。
 
 我特别喜欢对系统解耦，可能跟大学时无数次的背诵：高内聚低耦合有关。
 
@@ -181,7 +181,7 @@ Parser把数据拿出来以后，最直接的办法当然是直接存。比如�
 
 做到Canonical以后，还需要考虑可视化，毕竟我的用户都是有法律需求的工作者。
 
-系统里面可能关心的是id、parent_id、source_ref、text_blocks这些东西，但人看法规的时候还是希望看到熟悉的结构：Chapter II、Article 5、Governance and organisation，然后下面一段一段正文。用户也不会关心我的Canonical Model怎么设计，他只想点开Article 5，知道它属于哪个Chapter，前后是什么条款，正式EUR-Lex链接在哪里，跟哪些法规有关系。
+系统里面可能关心的是id、parent_id、source_ref、text_blocks这些东西，但人看法规的时候还是希望看到熟悉的结构：Chapter II、Article 5、Governance and organisation，然后下面一段一段正文。用户也不会关心我的Canonical Model怎么设计，他只想点开Article 5，知道它属于哪个Chapter，前后是什么条款，正式Laws链接在哪里，跟哪些法规有关系。
 
 所以DocumentView其实就是把底层结构重新组织成人能看的样子。听起来有点搞笑，我先把法规拆开，拆成Chapter、Article、Paragraph，然后为了给用户看，又重新把它拼回来。但这个“拆了再拼”其实很有意义，因为底层事实可以统一，外面的View可以不一样。
 
@@ -199,6 +199,6 @@ Parser把数据拿出来以后，最直接的办法当然是直接存。比如�
 
 所以我后来砍掉了很多东西。先保证法规来源找得到，身份确定，Article结构不丢，上下文能恢复，关系能够追溯，够Search和RAG正常用就行。其他复杂问题以后真的需要再加。
 
-最终，把EUR-Lex和CELLAR里面那些relationship真正拿出来以后就能清晰的看到，树只是最简单的一层。法规之间还有amends、supplements、implements、references，一份法规可以同时连到很多其他法律资源。
+最终，把Laws和CELLAR里面那些relationship真正拿出来以后就能清晰的看到，树只是最简单的一层。法规之间还有amends、supplements、implements、references，一份法规可以同时连到很多其他法律资源。
 
 Platform已经开始长得像一个Knowledge Graph了，开心！
